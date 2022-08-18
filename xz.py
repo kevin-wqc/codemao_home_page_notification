@@ -48,7 +48,7 @@ def xinzuo():
     for i in j:
         works_now.append(i)
 
-    with open(r'D:\DATA\WQC\github\python\首页通知书\xinzuo.json','w')as file:
+    with open(r'xinzuo.json','w')as file:
         dump(works_now,file)
 
 
@@ -79,7 +79,7 @@ def xinzuo():
         notification.notify(
             title = '编程猫-首页通知书',
             message = '已评论一个新的作品(新作)'+d[1],
-            app_icon = r'D:\DATA\WQC\github\python\首页通知书\瓜！.ico',
+            app_icon = '瓜！.ico',
             timeout = 17
         )
         print()

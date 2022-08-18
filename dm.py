@@ -4,7 +4,7 @@ from plyer import notification
 
 
 def dianmao():
-    with open(r'D:\DATA\WQC\github\python\首页通知书\dianmao.json','r') as f:
+    with open('dianmao.json','r') as f:
         works = load(f)
 
 
@@ -43,7 +43,7 @@ def dianmao():
     for i in j:
         works_now.append(i)
 
-    with open(r'D:\DATA\WQC\github\python\首页通知书\dianmao.json','w')as file:
+    with open('dianmao.json','w')as file:
         dump(works_now,file)
 
 
@@ -75,7 +75,7 @@ def dianmao():
         notification.notify(
             title = '编程猫-首页通知书',
             message = '已评论一个新的作品(点猫)'+d[1],
-            app_icon = r'D:\DATA\WQC\github\python\首页通知书\瓜！.ico',
+            app_icon = '瓜！.ico',
             timeout = 17
         )
         print()
