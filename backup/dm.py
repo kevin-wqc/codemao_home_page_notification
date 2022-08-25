@@ -3,7 +3,7 @@ from json import loads,dumps,load,dump
 from plyer import notification
 
 
-def dianmao(user):
+def dianmao(cookie):
     with open('dianmao.json','r') as f:
         works = load(f)
 
@@ -11,6 +11,7 @@ def dianmao(user):
     headers = {
         "Content-Type": "application/json",
         "User-Agent": 'Mozilla/5.0 (Windows NT 5.1rv: 21.0) Gecko/20100101 Firefox/21.0',
+        'cookie':cookie
 
     }
 
@@ -58,10 +59,14 @@ def dianmao(user):
             continue
 
         reply = '恭喜作者“{}”的“{}”上首页的点猫精选了！目前已经获得{}个赞和{}个观看次数了！'.format(d[4],d[1],d[3],d[2])
-        user.reply_work(d[0],content = reply)
-
+        p=requests.post(r'https://api.codemao.cn/creation-tools/v1/works/{}/comment'.format(d[0]),
+            headers=headers, 
+            data=dumps({'content': reply}))
+        print(p.text)
         print('成功评论')
-        user.like_work(d[0])
+        p_2 = requests.post(r'https://api.codemao.cn/nemo/v2/works/{}/like'.format(d[0]),
+                headers=headers,
+                data=dumps({}))
         
         print('成功点赞')
         print('已完成对'+d[1]+'作品的评论点赞，等待5.5秒')

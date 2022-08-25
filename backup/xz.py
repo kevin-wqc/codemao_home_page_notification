@@ -1,21 +1,27 @@
-from json import load,dump, loads,dumps
+import requests, time
+from json import loads,dumps,load,dump
 from plyer import notification
-import time,requests
-from bcmHelper import *
 
-def xinzuo(usr):
+def xinzuo(cookie):
     with open('xinzuo.json','r') as f:
         works = load(f)
-    
+        
     print(type(works))
 
 
-    xinzuo = get_homepage_work(2)
-    
+    headers = {
+        "Content-Type": "application/json",
+        "User-Agent": 'Mozilla/5.0 (Windows NT 5.1rv: 21.0) Gecko/20100101 Firefox/21.0',
+        'cookie':cookie
+
+    }
+
+    dianmao = requests.get(r'https://api.codemao.cn/creation-tools/v1/pc/home/recommend-work?type=2',headers = headers)
+    dianmao = loads(dianmao.text)
     print('开始获取，获取首页新作内容如下：\n')
 
 
-    for i in xinzuo:
+    for i in dianmao:
         print(i['name'])
 
     print()
@@ -25,7 +31,7 @@ def xinzuo(usr):
     all_work = []
     j = []
 
-    for work in xinzuo:
+    for work in dianmao:
         id = work['id']
         name = work['name']
         view = work['view_times']
@@ -57,11 +63,16 @@ def xinzuo(usr):
             
             continue
 
-        reply = '恭喜作者@{}的《{}》上首页的新作喵喵看了！'.format(d[4],d[1])
-        usr.reply_work(d[0],content = reply)
-
+        reply = '恭喜作者“{}”的“{}”上首页的新作喵喵看了！目前已经获得{}个赞和{}个观看次数了！'.format(d[4],d[1],d[3],d[2])
+        p=requests.post(r'https://api.codemao.cn/creation-tools/v1/works/{}/comment'.format(d[0]),
+            headers=headers, 
+            data=dumps({'content': reply}))
+        print(p.text)
         print('成功评论')
-        usr.like_work(d[0])
+        p_2 = requests.post(r'https://api.codemao.cn/nemo/v2/works/{}/like'.format(d[0]),
+                headers=headers,
+                data=dumps({}))
+        print(p_2.text)
         print('成功点赞')
         print('已完成对'+d[1]+'作品的评论点赞，等待5.5秒')
         time.sleep(5.5)
