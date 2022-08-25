@@ -9,7 +9,6 @@ def dianmao(usr):
 
 
 
-
     dianmao = get_homepage_work(1)
 
     print('开始获取，获取首页点猫内容如下：\n')

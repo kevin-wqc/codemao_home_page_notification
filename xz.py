@@ -3,15 +3,18 @@ from plyer import notification
 import time,requests
 from bcmHelper import *
 
+
 def xinzuo(usr):
+
     with open('xinzuo.json','r') as f:
         works = load(f)
     
     print(type(works))
 
 
+
     xinzuo = get_homepage_work(2)
-    
+
     print('开始获取，获取首页新作内容如下：\n')
 
 

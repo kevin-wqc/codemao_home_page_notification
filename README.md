@@ -1,0 +1,5 @@
+# codemao_home_page_notification
+可以给编程猫新上首页的作品点赞并发一个恭喜上首页的评论
+
+记得填自己的cookie
+之后不会更新了（指两个json文件）
