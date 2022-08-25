@@ -1,21 +1,17 @@
 import requests, time
 from json import loads,dumps,load,dump
 from plyer import notification
+from bcmHelper import *
 
-
-def dianmao(user):
+def dianmao(usr):
     with open('dianmao.json','r') as f:
         works = load(f)
 
 
-    headers = {
-        "Content-Type": "application/json",
-        "User-Agent": 'Mozilla/5.0 (Windows NT 5.1rv: 21.0) Gecko/20100101 Firefox/21.0',
 
-    }
 
-    dianmao = requests.get(r'https://api.codemao.cn/creation-tools/v1/pc/home/recommend-work?type=1',headers = headers)
-    dianmao = loads(dianmao.text)
+    dianmao = get_homepage_work(1)
+
     print('开始获取，获取首页点猫内容如下：\n')
 
     for i in dianmao:
@@ -57,11 +53,11 @@ def dianmao(user):
            
             continue
 
-        reply = '恭喜作者“{}”的“{}”上首页的点猫精选了！目前已经获得{}个赞和{}个观看次数了！'.format(d[4],d[1],d[3],d[2])
-        user.reply_work(d[0],content = reply)
+        reply = '恭喜作者@{}的《{}》上首页的点猫精选了！'.format(d[4],d[1])
+        usr.reply_work(d[0],content = reply)
 
         print('成功评论')
-        user.like_work(d[0])
+        usr.like_work(d[0])
         
         print('成功点赞')
         print('已完成对'+d[1]+'作品的评论点赞，等待5.5秒')
